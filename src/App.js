@@ -1,23 +1,22 @@
-import logo from './logo.svg';
+import { useState, useEffect } from 'react';
+
 import './App.css';
+import Activity from './components/Activity';
 
 function App() {
+  const [activityData, setActivityData] = useState(null);
+  useEffect(() => {
+   async function fetchData() {
+    const response = await fetch('https://www.boredapi.com/api/activity');
+    const data = await response.json();
+    console.log(data);
+    setActivityData(data);
+    }
+    fetchData();
+  }, [])
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+     {activityData && <Activity activity = {activityData}/>}
     </div>
   );
 }
